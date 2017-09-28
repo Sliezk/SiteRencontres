@@ -46,15 +46,12 @@
                 <td>Description :</td>
                 <td>{{ app.user.profil.description }}</td>
             </tr>
-            <tr>
-                <td>Passions :</td>
-                <td>{{ app.user.profil.passions }}</td>
-            </tr>
         </table>
 
         <br>
 
         <a class="btn btn-primary" href="{{ path('user_profile_edit', {'id':app.user.profil.id}) }}">Modifier mes infos</a>
+        <a class="btn btn-secondary" href="{{ path('account', {'id':app.user.id}) }}">Retour à mon compte</a>
     {% endif %}
 
 

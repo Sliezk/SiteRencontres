@@ -96,7 +96,7 @@ class UsersController extends Controller
 
 
 
-    public function accountAction(Request $request)
+    public function accountAction()
     {
         return $this->render('RencontresBundle:Users:account.html.twig');
     }

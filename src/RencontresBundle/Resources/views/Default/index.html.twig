@@ -9,7 +9,7 @@
 
     <br><br>
 
-    <img src="{{ asset("img/accueil.jpg") }}" alt="">
+    <div class="image_accueil"><img src="{{ asset("img/accueil.jpg") }}" alt=""></div>
 
     <br><br>
     <br><br>
@@ -18,7 +18,7 @@
         <tr>
             {% if app.user == null %}<td><a class='btn btn-default' href=" {{ path('login') }}">Connexion</a></td>{% endif %}
             {% if app.user == null %}<td><a class='btn btn-default' href="{{ path('register') }}">S'inscrire</a></td>{% endif %}
-            <td><a class='btn btn-default' href="">Découvrir le site</a></td>
+            {#<td><a class='btn btn-default' href="">Découvrir le site</a></td>#}
         </tr>
     </table>
 
@@ -30,5 +30,6 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{ asset('css/app_index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {#<link rel="stylesheet" href="{{ asset('css/app_index.css') }}">#}
 {% endblock %}

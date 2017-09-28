@@ -41,6 +41,7 @@
 
     <footer>
         {% if app.user %}
+            <a class="btn btn-primary" href="{{ path('account', {'id':app.user.id}) }}">Mon compte</a>
             <a class="btn btn-danger" href="{{ path('logout') }}">Deconnexion</a>
         {% endif %}
     </footer>

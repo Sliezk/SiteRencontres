@@ -19,13 +19,17 @@ logout:
     path:     /deconnexion
 
 account:
-    path:     /mon_compte
+    path:     /mon_compte/
     defaults: { _controller: RencontresBundle:Users:account }
 
 user_profile:
-    path:     /mon_compte/profil/{id}
+    path:     /mon_compte/profil/{id}/
     defaults: { _controller: RencontresBundle:Users:profile }
 
 user_profile_edit:
-    path:     /mon_compte/profil/modification/{id}
+    path:     /mon_compte/profil/modification/{id}/
     defaults: { _controller: RencontresBundle:Users:editProfile }
+
+#TODO
+#user_hobbies:
+#user_

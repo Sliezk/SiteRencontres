@@ -40,7 +40,6 @@ class ProfilType extends AbstractType
             ))
             ->add('ville')
             ->add('description')
-            ->add('passions')
             ->add('submit', SubmitType::class, ["label" => "Enregistrer les modifications"]);
     }
     
