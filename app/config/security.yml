@@ -1,0 +1,29 @@
+security:
+    firewalls:
+            main: # <-- nom du firewall
+                pattern: ^/
+                anonymous: ~
+                form_login:
+                    login_path: login
+                    check_path: login
+                    default_target_path: account
+                logout:
+                     path: logout
+                     target: homepage
+
+    providers:
+        main_provider:
+                    entity:
+                        class:    RencontresBundle:Users
+                        property: username
+
+    encoders:
+            RencontresBundle\Entity\Users:
+                algorithm: bcrypt
+                cost: 10
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+    role_hierarchy:
+        ROLE_EVENT_PLANNER: ROLE_USER

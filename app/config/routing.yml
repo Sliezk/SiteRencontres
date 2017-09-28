@@ -1,0 +1,4 @@
+rencontres:
+    resource: "@RencontresBundle/Resources/config/routing.yml"
+    prefix:   /
+

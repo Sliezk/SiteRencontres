@@ -1,0 +1,23 @@
+homepage:
+    path:     /
+    defaults: { _controller: RencontresBundle:Default:index }
+
+register:
+    path:     /inscription
+    defaults: { _controller: RencontresBundle:Users:register }
+
+registerOK:
+    path:     /inscription_valide
+    defaults: { _controller: RencontresBundle:Users:registerOK }
+
+login: # le nom doit être le même que dans le security.yml
+    path:     /connexion
+    defaults: { _controller: RencontresBundle:Users:login }
+
+# C'est Symfony qui se charge de la déconnexion, donc on n'indique pas de méthode
+logout:
+    path:     /deconnexion
+
+account:
+    path:     /mon_compte
+    defaults: { _controller: RencontresBundle:Users:account }
