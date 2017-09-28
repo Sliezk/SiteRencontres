@@ -13,7 +13,11 @@ class PreferencesType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('age')->add('sexe')->add('cheveux')->add('yeux');
+        $builder
+            ->add('age')
+            ->add('sexe')
+            ->add('cheveux')
+            ->add('yeux');
     }
     
     /**
