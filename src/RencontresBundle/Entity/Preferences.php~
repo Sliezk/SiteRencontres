@@ -156,3 +156,4 @@ class Preferences
         return $this->yeux;
     }
 }
+

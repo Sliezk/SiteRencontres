@@ -52,13 +52,6 @@ class Users implements UserInterface
     private $password;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="genre", type="string", length=12)
-     */
-    private $genre;
-
-    /**
      * @var \DateTime
      * @Assert\NotBlank(message="Veuillez renseigner votre date de naissance ! ")
      * @ORM\Column(name="birthdate", type="date")
@@ -66,11 +59,23 @@ class Users implements UserInterface
     private $birthdate;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="genre", type="string", length=12)
+     */
+    private $genre;
+
+    /**
      * @var array
      *
      * @ORM\Column(name="pictures", type="array", nullable=true)
      */
     private $pictures;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Profil")
+     */
+    private $profil;
 
 
     /**
@@ -203,6 +208,14 @@ class Users implements UserInterface
         return $this->birthdate;
     }
 
+    public function getAge($birthdate)
+    {
+        $interval = date_diff($birthdate, new \DateTime);
+        $age = $interval->format('%y');
+
+        return $age;
+    }
+
     /**
      * Set pictures
      *
@@ -236,4 +249,28 @@ class Users implements UserInterface
     // Rien à faire ici car on hash le mot de passe
     public function eraseCredentials(){}
 
+
+    /**
+     * Set profil
+     *
+     * @param \RencontresBundle\Entity\Profil $profil
+     *
+     * @return Users
+     */
+    public function setProfil(\RencontresBundle\Entity\Profil $profil = null)
+    {
+        $this->profil = $profil;
+
+        return $this;
+    }
+
+    /**
+     * Get profil
+     *
+     * @return \RencontresBundle\Entity\Profil
+     */
+    public function getProfil()
+    {
+        return $this->profil;
+    }
 }

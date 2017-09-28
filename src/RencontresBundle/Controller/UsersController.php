@@ -3,6 +3,7 @@
 namespace RencontresBundle\Controller;
 
 use RencontresBundle\Entity\Users;
+use RencontresBundle\Entity\Profil;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use RencontresBundle\Form\UsersType;
@@ -20,13 +21,18 @@ class UsersController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
+        $profil = new Profil();
         $user = new Users();
         $user->setPictures(null);
+
 
         $form = $this->createForm(UsersType::class, $user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            $profil->setAge($user->getAge($user->getBirthdate()));
+            $profil->setSexe($user->getGenre());
+
             // hash le mot de passe
             $password = $user->getPassword();
             $encoder = $this->container->get('security.password_encoder');
@@ -34,6 +40,8 @@ class UsersController extends Controller
             $user->setPassword($encoded);
 
             $em = $this->getDoctrine()->getManager();
+            $em->persist($profil);
+            $user->setProfil($profil);
             $em->persist($user);
             $em->flush();
 

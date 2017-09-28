@@ -23,6 +23,13 @@ class Profil
     private $id;
 
     /**
+     * @var \DateTime
+     * @Assert\NotBlank(message="Veuillez renseigner votre date de naissance ! ")
+     * @ORM\Column(name="birthdate", type="date")
+     */
+    private $birthdate;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="age", type="integer")
@@ -340,28 +347,5 @@ class Profil
     {
         return $this->preferences;
     }
-
-    /**
-     * Set birthdate
-     *
-     * @param \DateTime $birthdate
-     *
-     * @return Profil
-     */
-    public function setBirthdate($birthdate)
-    {
-        $this->birthdate = $birthdate;
-
-        return $this;
-    }
-
-    /**
-     * Get birthdate
-     *
-     * @return \DateTime
-     */
-    public function getBirthdate()
-    {
-        return $this->birthdate;
-    }
 }
+

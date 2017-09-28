@@ -3,14 +3,18 @@
 namespace RencontresBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Users
  *
  * @ORM\Table(name="users")
+ * @UniqueEntity("email", message="Cette adresse email est déjà utilisée ! ")
  * @ORM\Entity(repositoryClass="RencontresBundle\Repository\UsersRepository")
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @var int
@@ -30,7 +34,19 @@ class Users
 
     /**
      * @var string
-     *
+     * @Assert\Regex(
+     *     pattern="/[a-zA-Z0-9]{3,}@[a-zA-Z0-9]{3,}+.([a-zA-Z]{2,}+$)/",
+     *     match=true,
+     *     message="Le format de votre adresse email est incorrect."
+     *     )
+     * @Assert\NotBlank(message="Veuillez renseigner une adresse email ! ")
+     * @ORM\Column(name="email", type="string", length=100, unique=true)
+     */
+    private $email;
+
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Veuillez renseigner un mot de passe ! ")
      * @ORM\Column(name="password", type="string", length=100)
      */
     private $password;
@@ -43,18 +59,16 @@ class Users
     private $genre;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="birthdate", type="date")
-     */
-    private $birthdate;
-
-    /**
      * @var array
      *
      * @ORM\Column(name="pictures", type="array", nullable=true)
      */
     private $pictures;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Profil")
+     */
+    private $profil;
 
 
     /**
@@ -89,6 +103,30 @@ class Users
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Users
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     /**
@@ -186,5 +224,14 @@ class Users
     {
         return $this->pictures;
     }
-}
 
+    public function getRoles(){
+        return ["ROLE_USER"];
+    }
+
+    public function getSalt(){}
+
+    // Rien à faire ici car on hash le mot de passe
+    public function eraseCredentials(){}
+
+}
