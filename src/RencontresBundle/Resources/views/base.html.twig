@@ -40,13 +40,9 @@
     {% block content %}{% endblock %}
 
     <footer>
-        <nav>
-            <ul>
-                {% if app.user %}
-                    <li><a href="{{ path('logout') }}">Deconnexion</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+        {% if app.user %}
+            <a class="btn btn-danger" href="{{ path('logout') }}">Deconnexion</a>
+        {% endif %}
     </footer>
 </div>
 </body>

@@ -1,0 +1,14 @@
+{% extends 'RencontresBundle::base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} | Modification du profil
+{% endblock %}
+
+{% block content %}
+    <h1>Modification du profil</h1>
+    <br>
+
+    {{ form(form, {'attr': {'novalidate':'novalidate'}}) }}
+
+
+{% endblock %}

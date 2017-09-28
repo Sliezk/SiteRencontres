@@ -2,6 +2,7 @@
 
 namespace RencontresBundle\Controller;
 
+use RencontresBundle\Entity\Preferences;
 use RencontresBundle\Entity\Users;
 use RencontresBundle\Entity\Profil;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,6 +23,7 @@ class UsersController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
+        $preferences = new Preferences();
         $profil = new Profil();
         $user = new Users();
         $user->setPictures(null);
@@ -33,6 +35,14 @@ class UsersController extends Controller
         {
             $profil->setAge($user->getAge($user->getBirthdate()));
             $profil->setSexe($user->getGenre());
+            $preferences->setAge($profil->getAge());
+            if($profil->getSexe() == 'Homme')
+            {
+                $preferences->setSexe('Femme');
+            } else
+            {
+                $preferences->setSexe('Homme');
+            }
 
             // hash le mot de passe
             $password = $user->getPassword();
@@ -41,6 +51,8 @@ class UsersController extends Controller
             $user->setPassword($encoded);
 
             $em = $this->getDoctrine()->getManager();
+            $em->persist($preferences);
+            $profil->setPreferences($preferences);
             $em->persist($profil);
             $user->setProfil($profil);
             $em->persist($user);
@@ -93,27 +105,34 @@ class UsersController extends Controller
 
 
     /**
-     *  Modification des informations du profil
+     *  Affichage des informations du profil
      */
     public function profileAction(Request $request)
     {
         $user = $this->getUser();
 
-        $em = $this->getDoctrine()->getManager();
-        $profil = $em->getRepository("RencontresBundle:Profil")->find($user->getId());
+        $repo = $this->getDoctrine()->getRepository("RencontresBundle:Profil");
+        $profil = $repo->find($user->getProfil()->getId());
 
+        return $this->render('RencontresBundle:Users:profile.html.twig', [
+            "profil" => $profil
+        ]);
+    }
+
+
+
+
+    /**
+     *  Modification des informations du profil
+     */
+    public function editProfileAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $profil = $em->getRepository("RencontresBundle:Profil")->find($user->getProfil()->getId());
         $form = $this->createForm(ProfilType::class, $profil);
         $form->handleRequest($request);
-
-        if($this->getUser()) {
-
-
-            if (!$profil->getPreferences()) {
-                $profil->setPreferences(NULL);
-            } else
-            {
-                $profil->setPreferences($profil->getPreferences());
-            }
 
             if ($form->isSubmitted() && $form->isValid()) {
 
@@ -125,9 +144,7 @@ class UsersController extends Controller
 
             }
 
-        }
-
-        return $this->render('RencontresBundle:Users:profile.html.twig', [
+        return $this->render('RencontresBundle:Users:profile_edit.html.twig', [
             "form" => $form->createView()
         ]);
     }

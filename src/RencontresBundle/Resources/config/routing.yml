@@ -25,3 +25,7 @@ account:
 user_profile:
     path:     /mon_compte/profil/{id}
     defaults: { _controller: RencontresBundle:Users:profile }
+
+user_profile_edit:
+    path:     /mon_compte/profil/modification/{id}
+    defaults: { _controller: RencontresBundle:Users:editProfile }

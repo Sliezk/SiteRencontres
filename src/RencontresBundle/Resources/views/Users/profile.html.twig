@@ -1,14 +1,61 @@
 {% extends 'RencontresBundle::base.html.twig' %}
 
 {% block title %}
-    {{ parent() }} | Modification du profil
+    {{ parent() }} | Mon profil
 {% endblock %}
 
 {% block content %}
-    <h1>Modification du profil</h1>
+    <h1>Mon profil</h1>
     <br>
 
-    {{ form(form, {'attr': {'novalidate':'novalidate'}}) }}
+    {% if (app.user) %}
+        <table>
+            <tr>
+                <td>Pseudo :</td>
+                <td>{{ app.user.username }}</td>
+            </tr>
+            <tr>
+                <td>Sexe :</td>
+                <td>{{ app.user.profil.sexe }}</td>
+            </tr>
+            <tr>
+                <td>Âge :</td>
+                <td>{{ app.user.profil.age }} ans</td>
+            </tr>
+            <tr>
+                <td>Taille :</td>
+                <td>{{ app.user.profil.taille }} cm</td>
+            </tr>
+            <tr>
+                <td>Poids :</td>
+                <td>{{ app.user.profil.poids }} kg</td>
+            </tr>
+            <tr>
+                <td>Ville :</td>
+                <td>{{ app.user.profil.ville }}</td>
+            </tr>
+            <tr>
+                <td>Couleur des cheveux :</td>
+                <td>{{ app.user.profil.cheveux }}</td>
+            </tr>
+            <tr>
+                <td>Couleur des yeux :</td>
+                <td>{{ app.user.profil.yeux }}</td>
+            </tr>
+            <tr>
+                <td>Description :</td>
+                <td>{{ app.user.profil.description }}</td>
+            </tr>
+            <tr>
+                <td>Passions :</td>
+                <td>{{ app.user.profil.passions }}</td>
+            </tr>
+        </table>
+
+        <br>
+
+        <a class="btn btn-primary" href="{{ path('user_profile_edit', {'id':app.user.profil.id}) }}">Modifier mes infos</a>
+    {% endif %}
 
 
 {% endblock %}

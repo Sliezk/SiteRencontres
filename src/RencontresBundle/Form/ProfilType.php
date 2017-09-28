@@ -20,9 +20,8 @@ class ProfilType extends AbstractType
     {
         $builder
             ->add('taille', IntegerType::class, array(
-                'data' => '165',
                 'scale' => 0))
-            ->add('poids')
+            ->add('poids', IntegerType::class)
             ->add('cheveux', ChoiceType::class, array(
                 'choices' => array(
                     'Bruns' => 'Bruns',

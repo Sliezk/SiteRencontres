@@ -87,7 +87,6 @@ class Profil
 
     /**
      * @ORM\OneToOne(targetEntity="Preferences")
-     * @ORM\Column(name="preferences", type="object", nullable=true)
      */
     private $preferences;
 
@@ -340,29 +339,5 @@ class Profil
     public function getPreferences()
     {
         return $this->preferences;
-    }
-
-    /**
-     * Set birthdate
-     *
-     * @param \DateTime $birthdate
-     *
-     * @return Profil
-     */
-    public function setBirthdate($birthdate)
-    {
-        $this->birthdate = $birthdate;
-
-        return $this;
-    }
-
-    /**
-     * Get birthdate
-     *
-     * @return \DateTime
-     */
-    public function getBirthdate()
-    {
-        return $this->birthdate;
     }
 }
