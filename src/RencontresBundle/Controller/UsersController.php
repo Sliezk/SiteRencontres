@@ -7,6 +7,7 @@ use RencontresBundle\Entity\Profil;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use RencontresBundle\Form\UsersType;
+use RencontresBundle\Form\ProfilType;
 
 class UsersController extends Controller
 {
@@ -53,11 +54,17 @@ class UsersController extends Controller
         ]);
     }
 
+
+
+
     public function registerOKAction(Request $request)
     {
         $this->addFlash('warning', "Votre compte a bien été créé. Vous pouvez maintenant vous connecter pour paramétrer vos préférences et commencer à chercher chaussure à votre pied ;)");
         return $this->render('RencontresBundle:Default:inscriptionOK.html.twig');
     }
+
+
+
 
     public function loginAction(Request $request)
     {
@@ -68,20 +75,61 @@ class UsersController extends Controller
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
 
-        if (isset($_POST['submit']) && !$error)
-        {
-            return $this->redirectToRoute("account");
-        }
-
         return $this->render('RencontresBundle:Users:login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
         ]);
     }
 
+
+
+
     public function accountAction(Request $request)
     {
         return $this->render('RencontresBundle:Users:account.html.twig');
+    }
+
+
+
+
+    /**
+     *  Modification des informations du profil
+     */
+    public function profileAction(Request $request)
+    {
+        $user = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $profil = $em->getRepository("RencontresBundle:Profil")->find($user->getId());
+
+        $form = $this->createForm(ProfilType::class, $profil);
+        $form->handleRequest($request);
+
+        if($this->getUser()) {
+
+
+            if (!$profil->getPreferences()) {
+                $profil->setPreferences(NULL);
+            } else
+            {
+                $profil->setPreferences($profil->getPreferences());
+            }
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                    $em->persist($profil);
+                    $em->flush();
+
+                    $this->addFlash("success", "Les modifications ont été sauvegardées.");
+                    return $this->redirectToRoute("account");
+
+            }
+
+        }
+
+        return $this->render('RencontresBundle:Users:profile.html.twig', [
+            "form" => $form->createView()
+        ]);
     }
 
 }

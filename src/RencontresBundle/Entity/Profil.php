@@ -87,6 +87,7 @@ class Profil
 
     /**
      * @ORM\OneToOne(targetEntity="Preferences")
+     * @ORM\Column(name="preferences", type="object", nullable=true)
      */
     private $preferences;
 

@@ -21,3 +21,7 @@ logout:
 account:
     path:     /mon_compte
     defaults: { _controller: RencontresBundle:Users:account }
+
+user_profile:
+    path:     /mon_compte/profil/{id}
+    defaults: { _controller: RencontresBundle:Users:profile }
